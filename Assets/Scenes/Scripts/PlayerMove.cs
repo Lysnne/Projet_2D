@@ -14,7 +14,7 @@ public class PlayerMove: MonoBehaviour
     private AudioSource audioSource;
     // Valeur d’entrée horizontale (−1 = gauche, 0 = immobile, 1 = droite)
     [Header("Mouvement")]
-    [SerializeField] private float moveSpeed = 5f; // Vitesse horizontale
+    [SerializeField] private float moveSpeed = 3f; // Vitesse horizontale
     [SerializeField] private float jumpForce = 7f;
     private float x;
     // Composant pour gérer l’affichage du sprite (retourner à gauche/droite)
@@ -44,7 +44,7 @@ public class PlayerMove: MonoBehaviour
         // ---- Déplacement horizontal ----
         x = Input.GetAxisRaw("Horizontal"); // récupère l’input clavier/flèches
         animator.SetFloat("x", Mathf.Abs(x)); // anime la marche selon vitesse
-        transform.Translate(Vector2.right * jumpForce * Time.deltaTime * x); // déplace le joueur
+        transform.Translate(Vector2.right * moveSpeed * Time.deltaTime * x); // déplace le joueur
         // ---- Orientation du sprite ----
         if (x > 0f) { spriteRenderer.flipX = false; } // regarde à droite
         if (x < 0f) { spriteRenderer.flipX = true; }  // regarde à gauche
@@ -69,7 +69,7 @@ public class PlayerMove: MonoBehaviour
         {
             jump = false; // réinitialise pour éviter des sauts infinis
             audioSource.PlayOneShot(sfxJump); // rejoue le son du saut (⚠ doublon aussi)
-            rb.AddForce(Vector2.up * 700f); // applique une force vers le haut
+            rb.AddForce(Vector2.up * 500f); // applique une force vers le haut
         }
     }
 }
