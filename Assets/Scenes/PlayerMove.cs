@@ -44,7 +44,7 @@ public class PlayerMove: MonoBehaviour
         // ---- Déplacement horizontal ----
         x = Input.GetAxisRaw("Horizontal"); // récupère l’input clavier/flèches
         animator.SetFloat("x", Mathf.Abs(x)); // anime la marche selon vitesse
-        transform.Translate(Vector2.right * 7f * Time.deltaTime * x); // déplace le joueur
+        transform.Translate(Vector2.right * jumpForce * Time.deltaTime * x); // déplace le joueur
         // ---- Orientation du sprite ----
         if (x > 0f) { spriteRenderer.flipX = false; } // regarde à droite
         if (x < 0f) { spriteRenderer.flipX = true; }  // regarde à gauche
@@ -63,13 +63,13 @@ public class PlayerMove: MonoBehaviour
     private void FixedUpdate()
     {
         // Déplacement horizontal répété ici (⚠ doublon avec Update)
-        transform.Translate(Vector2.right * 7f * Time.deltaTime * x);
+        transform.Translate(Vector2.right * jumpForce * Time.deltaTime * x);
         // ---- Saut ----
         if (jump) // si le flag est actif
         {
             jump = false; // réinitialise pour éviter des sauts infinis
             audioSource.PlayOneShot(sfxJump); // rejoue le son du saut (⚠ doublon aussi)
-            rb.AddForce(Vector2.up * 900f); // applique une force vers le haut
+            rb.AddForce(Vector2.up * 700f); // applique une force vers le haut
         }
     }
 }

@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
  
 public class FadeOut2D : MonoBehaviour
 {
     public float fadeDuration = 1f;     // Durée du fondu (en secondes) avant disparition
-    public bool destroyAfter = true;    // Si vrai : détruire l’objet à la fin. Sinon : juste le désactiver
+    public bool destroyAfter = true;
+    public float waitBeforeHome = 2f;    // Si vrai : détruire l’objet à la fin. Sinon : juste le désactiver
  
     private SpriteRenderer sr;          // Référence au SpriteRenderer de l’objet
     private bool fading = false;        // Indique si le fade a commencé
@@ -40,11 +42,24 @@ public class FadeOut2D : MonoBehaviour
  
     void OnTriggerEnter2D(Collider2D other)
     {
-       if (other.CompareTag("Hazard") || other.CompareTag("Finish"))
+        if (other.CompareTag("Hazard") || other.CompareTag("Finish"))
         {
-            // On active le fade
             fading = true;
+            StartCoroutine(VictorySequence());
         }
+    }
+
+    private System.Collections.IEnumerator VictorySequence()
+    {
+     
+        SceneManager.LoadScene("Victoire");
+
+        
+        yield return new WaitForSeconds(waitBeforeHome);
+        
+        SceneManager.LoadScene("LevelOne");
+
+       
     }
 }
  

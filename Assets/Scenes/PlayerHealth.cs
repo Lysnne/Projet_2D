@@ -5,16 +5,26 @@ public class PlayerHealth : MonoBehaviour
 {
     private float reloadDelay = 2f;
     public int maxHealth = 5;
-    private int currentHealth;
+    public int currentHealth;
    // public string sceneToLoad="Level2";
     private Animator animator;
+    [SerializeField] public SpriteRenderer playerSr;
+    [SerializeField] public PlayerMove playerMovement;
+
+
     void Awake() => currentHealth = maxHealth;
  
     public void TakeDamage(int dmg)
     {
         currentHealth -= dmg;
         Debug.Log("Player prend " + dmg + " dégâts. HP restants = " + currentHealth);
-        if (currentHealth <= 0) Die();
+        if (currentHealth <= 0)
+         { 
+            playerSr.enabled = false;
+            playerMovement.enabled = false;
+            Die();
+           
+          };
     }
  
     void Die()
@@ -37,11 +47,13 @@ public class PlayerHealth : MonoBehaviour
     // }
     IEnumerator WaitAndReloadScene()
     {
+         SceneManager.LoadScene("GameOver");
         // Attente de reloadDelay secondes avant de recharger la scène
         yield return new WaitForSeconds(reloadDelay);
  
         // Rechargement de la scène actuelle
         Scene activeScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(activeScene.buildIndex);
+       
+         SceneManager.LoadScene("LevelOne");
     }
 }
